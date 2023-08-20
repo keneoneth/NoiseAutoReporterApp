@@ -28,6 +28,9 @@ In the future, the Noise Meter Auto Report App is poised to offer even more feat
 
 - **iOS Version:** As the final enhancement, the app will be extended to iOS devices, expanding its reach and impact to a wider user base.
 
+## Snapshot of the App interface
+![Screenshot_20230820_005856_NoiseAutoReporterApp-fotor-2023082011815](https://github.com/keneoneth/NoiseAutoReporterApp/assets/42671855/3873dd4d-b36c-4605-baf3-001d275f646e)
+
 ## Get Involved
 
 The Noise Meter Auto Report App is an open-source project developed as part of the campaign to mitigate noise pollution in Toronto. Contributions from developers, designers, and individuals passionate about creating a quieter and healthier environment are highly encouraged. If you're interested in contributing, feel free to fork the repository, make improvements, and submit pull requests. Let's work together to make Toronto a more peaceful place to live.
