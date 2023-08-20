@@ -29,7 +29,7 @@ In the future, the Noise Meter Auto Report App is poised to offer even more feat
 - **iOS Version:** As the final enhancement, the app will be extended to iOS devices, expanding its reach and impact to a wider user base.
 
 ## Snapshot of the App interface
-![Screenshot_20230820_005856_NoiseAutoReporterApp-fotor-2023082011815](https://github.com/keneoneth/NoiseAutoReporterApp/assets/42671855/3873dd4d-b36c-4605-baf3-001d275f646e)
+![Screenshot_20230820_005856_NoiseAutoReporterApp-fotor-2023082011815](https://github.com/keneoneth/NoiseAutoReporterApp/assets/42671855/ecb3cebb-6654-4a34-bb03-7ab63781b132)
 
 ## Get Involved
 
