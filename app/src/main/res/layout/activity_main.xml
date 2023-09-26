@@ -7,7 +7,14 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".MainActivity">
-
+    <EditText
+        android:id="@+id/APIKEY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your API key"
+        android:singleLine="true"
+        android:textColorHint="#333333"
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:id="@+id/MAINTEXT"
         android:layout_width="match_parent"
@@ -18,7 +25,7 @@
         android:textSize="24sp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/APIKEY"
         android:text="sample" />
 
     <android.widget.LinearLayout
@@ -62,9 +69,10 @@
     <ListView
         android:id="@+id/LISTVIEWNOISERECORD"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/BUTTONBOX"
-    />
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

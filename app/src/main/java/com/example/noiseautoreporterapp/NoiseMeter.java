@@ -15,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class NoiseMeter {
     private static final String [] RECORDER_PERMISSION = {
@@ -56,7 +57,6 @@ public class NoiseMeter {
                 FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
                 this.dataOutputStream = new DataOutputStream(fileOutputStream);
                 saveWavHeader(this.dataOutputStream);
-                Log.i("sound meter", "Preparing file now! " + (this.dataOutputStream == null));
             } catch (IOException e) {
                 Log.e("sound meter", "Data output stream creation failed");
                 e.printStackTrace();
@@ -96,7 +96,12 @@ public class NoiseMeter {
 
     private double convertToDB(int amplitude) {
         final double amplitudeDB = 20 * Math.log10((double) amplitude / RECORDER_AUDIO_REFERENCE_AMPLITUDE);
-        return (double) (Math.round(amplitudeDB * 100) / 100);
+        if (!Double.isInfinite(amplitudeDB)) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            return Double.parseDouble(df.format(amplitudeDB));
+        } else {
+            return amplitudeDB;
+        }
     }
     private File createWAVFile(String fname) {
 
@@ -155,27 +160,27 @@ public class NoiseMeter {
                 }
 
                 this.curNoiseDB = maxNoiseDB;
+                // check if noise level exceeds threshold
                 if (!saveConfig.isSavingFile && this.curNoiseDB > this.mNoiseThresholdController.getNoiseThreshold()) {
                     saveConfig.recordKey = this.mNoiseRecorder.addRecord(this.curNoiseDB);
                     // check if record key has error
                     if (!saveConfig.recordKey.equals(NoiseRecorder.INVALID_RECORD_ERROR)){
                         saveConfig.isSavingFile = true;
                         saveConfig.prepareFile(saveConfig.recordKey.replace(":","."));
-                        Log.i("sound meter","prepare file now! "+(saveConfig.dataOutputStream == null));
                     }
                 }
 
                 if (saveConfig.isSavingFile) {
                     try {
                         for (int i = 0; i < bytesRead; i++) {
-                            Log.i("sound meter","saving file now! "+bytesRead+" - "+saveConfig.sampleNum+"/"+RECORDER_SAMPLE_SIZE);
+//                            Log.i("sound meter","saving file now! "+bytesRead+" - "+saveConfig.sampleNum+"/"+RECORDER_SAMPLE_SIZE);
                             if (saveConfig.dataOutputStream != null) {
                                 saveConfig.dataOutputStream.writeShort(Short.reverseBytes(audioBuffer[i]));
                                 saveConfig.sampleNum += 1;
                                 if (saveConfig.sampleNum >= RECORDER_SAMPLE_SIZE) {
                                     saveConfig.reset();
                                     saveConfig.isSavingFile = false;
-                                    Log.i("sound meter","noise recording done!");
+//                                    Log.i("sound meter","noise recording done!");
                                     break;
                                 }
                             } else {

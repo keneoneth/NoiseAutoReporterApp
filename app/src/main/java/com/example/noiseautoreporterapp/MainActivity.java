@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -93,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // set up edit text
+        EditText etAPIKey = findViewById(R.id.APIKEY);
         // set up tools
         gpsReceiver = new GPSReceiver(this);
-        noiseRecorder = new NoiseRecorder(gpsReceiver);
+        noiseRecorder = new NoiseRecorder(gpsReceiver,etAPIKey);
         displayNoiseRecordList = new ArrayList<String>();
         noiseRecordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displayNoiseRecordList) {
 

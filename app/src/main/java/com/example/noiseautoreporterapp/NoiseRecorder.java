@@ -3,8 +3,10 @@ package com.example.noiseautoreporterapp;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 import com.example.noiseautoreporterapp.location.GPSReceiver;
+import com.example.noiseautoreporterapp.sender.RemoteRecordSender;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,11 +20,11 @@ public class NoiseRecorder {
     public static final String INVALID_RECORD_ERROR = "invalid_record";
     private ArrayList<String> noiseRecordList = null;
     private GPSReceiver mGPSReceiver = null;
-    private int recordRemoveCount = 0;
-    public NoiseRecorder (GPSReceiver gpsReceiver) {
+    private RemoteRecordSender mRemoteRecordSender = null;
+    public NoiseRecorder (GPSReceiver gpsReceiver, EditText etAPIKey) {
         this.noiseRecordList = new ArrayList<>();
         this.mGPSReceiver = gpsReceiver;
-        this.recordRemoveCount = 0;
+        this.mRemoteRecordSender = new RemoteRecordSender(etAPIKey);
     }
     private boolean checkLocationValid(String location) {
         if (location.equals(GPS_RECEIVER_NULL_ERROR))
@@ -53,10 +55,15 @@ public class NoiseRecorder {
             Date currentDate = new Date();
             NoiseRecord noiseRecord = new NoiseRecord(currentDate, curLocation, noiseLevel);
             Log.i("noise recorder", "add record " + noiseRecord.toString());
-            this.noiseRecordList.add(noiseRecord.toString()); // always add the latest item to the front
+            // send to remote
+            boolean sendStatus = mRemoteRecordSender.sendRecord(noiseRecord);
+            noiseRecord.setRemoteSendStatus(sendStatus);
+            // add to local list
+            this.noiseRecordList.add(noiseRecord.toString()); // always add the latest item to the back
             if (this.noiseRecordList.size() > MAX_STORAGE_SIZE) {
                 this.noiseRecordList.remove(0);
             }
+
             return noiseRecord.getTimeStamp();
         }
         return INVALID_RECORD_ERROR;
