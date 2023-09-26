@@ -121,7 +121,6 @@ public class NoiseMeter {
         return file;
     }
     private void saveWavHeader(DataOutputStream outputStream) throws IOException {
-        // TODO: fix this bug
         // WAV file format header
         outputStream.writeBytes("RIFF"); // 4
         outputStream.writeInt(Integer.reverseBytes(44 + RECORDER_DATA_BYTE_SIZE));  // 8
