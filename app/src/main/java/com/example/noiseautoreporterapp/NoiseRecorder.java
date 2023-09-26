@@ -18,11 +18,11 @@ public class NoiseRecorder {
     public static final String INVALID_RECORD_ERROR = "invalid_record";
     private ArrayList<String> noiseRecordList = null;
     private GPSReceiver mGPSReceiver = null;
-    private int recordLength = 0;
+    private int recordRemoveCount = 0;
     public NoiseRecorder (GPSReceiver gpsReceiver) {
         this.noiseRecordList = new ArrayList<>();
         this.mGPSReceiver = gpsReceiver;
-        this.recordLength = 0;
+        this.recordRemoveCount = 0;
     }
     private boolean checkLocationValid(String location) {
         if (location.equals(GPS_RECEIVER_NULL_ERROR))
@@ -46,6 +46,7 @@ public class NoiseRecorder {
     public int getRecordLength() {
         return this.noiseRecordList.size();
     }
+
     public String addRecord(double noiseLevel) {
         String curLocation = getLocation();
         if (checkLocationValid(curLocation)) {

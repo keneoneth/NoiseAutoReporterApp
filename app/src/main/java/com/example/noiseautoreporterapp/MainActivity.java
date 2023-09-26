@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> displayNoiseRecordList = null;
 
 
-
     void setMainText(double curNoiseLevel, int curNoiseThreshold, String curLocation, String recordStatus) {
         TextView mainText = (TextView) findViewById(R.id.MAINTEXT);
         String mssg = "Noise Level: " + curNoiseLevel + " (dB)" +
@@ -180,10 +179,10 @@ public class MainActivity extends AppCompatActivity {
         noiseRecordHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (displayNoiseRecordList.size() < 100) {
-                    for (int i = displayNoiseRecordList.size(); i < noiseRecorder.getRecordLength(); i++) {
-                        displayNoiseRecordList.add(0, noiseRecorder.getNoiseRecordListByIndex(i));
-                    }
+                final int maxDisplaySize = 100;
+                displayNoiseRecordList.clear();
+                for (int i = Math.max(0,noiseRecorder.getRecordLength() - maxDisplaySize); i < noiseRecorder.getRecordLength(); i++) {
+                    displayNoiseRecordList.add(0, noiseRecorder.getNoiseRecordListByIndex(i));
                 }
                 noiseRecordAdapter.notifyDataSetChanged();
                 noiseRecordHandler.postDelayed(this,NOISE_SCAN_FREQ);
