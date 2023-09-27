@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:hint="Enter your API key"
         android:singleLine="true"
+        android:textColor="@color/black"
         android:textColorHint="#333333"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView

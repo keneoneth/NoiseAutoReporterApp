@@ -18,6 +18,8 @@ import androidx.core.app.ActivityCompat;
 
 public class GPSReceiver extends Service implements LocationListener {
 
+    public static final String GPS_TRACKING_SERVICE_ERROR = "gps_tracking_service_error";
+    public static final String GPS_PERMISSION_ERROR = "gps_permission_error";
     public static final String GPS_RECEIVER_ERROR = "gps_receiver_error";
     private static final String[] RECEIVER_PERMISSION = {
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -43,10 +45,14 @@ public class GPSReceiver extends Service implements LocationListener {
 
     public String getLocationAddress() {
         Log.i("gps receiver", "getLocationAddress: permission:"+hasPermissions()+"|isTracking:"+mIsTracking+"|curLocation:"+curlocation);
-        if (hasPermissions() && mIsTracking && curlocation != null)
-            return LocationConverter.getAddress(mContext, curlocation);
-        else
+        if (!hasPermissions())
+            return GPS_PERMISSION_ERROR;
+        if (!mIsTracking)
+            return GPS_TRACKING_SERVICE_ERROR;
+        if (curlocation == null)
             return GPS_RECEIVER_ERROR;
+
+        return LocationConverter.getAddress(mContext, curlocation);
     }
 
     public boolean hasPermissions() {
@@ -67,8 +73,6 @@ public class GPSReceiver extends Service implements LocationListener {
         if (!hasPermissions())
             return false;
         if (!this.isGPSEnabled())
-            return false;
-        if (mIsTracking)
             return false;
 
         this.mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
