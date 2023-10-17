@@ -19,7 +19,9 @@ public class RemoteRecordSender {
 
     public boolean sendRecord(NoiseRecord noiseRecord) {
 
-        Future<String> authTokenFuture = UbidotsClient.requestAuthTokenAsync(this.mEtAPIKey.getText().toString());
+        // NOTE: comment the line below to use WebCommandClient
+//        Future<String> authTokenFuture = UbidotsClient.requestAuthTokenAsync(this.mEtAPIKey.getText().toString());
+        Future<String> authTokenFuture = WebCommandClient.requestAuthTokenAsync(this.mEtAPIKey.getText().toString());
 
         // You can perform other tasks here while waiting for the async request to complete
         try {
@@ -31,7 +33,9 @@ public class RemoteRecordSender {
                 Log.i("remote sender","Received auth token: " + authTokenResponse);
                 JsonObject jsonObject = JsonParser.parseString(authTokenResponse).getAsJsonObject();
                 String authToken = jsonObject.get("token").getAsString();
-                Future<String> sendDataFuture = UbidotsClient.sendDataAsync(authToken, noiseRecord);
+                // NOTE: comment the line below to use WebCommandClient
+//                Future<String> sendDataFuture = UbidotsClient.sendDataAsync(authToken, noiseRecord);
+                Future<String> sendDataFuture = WebCommandClient.sendDataAsync(authToken, noiseRecord);
                 try {
                     // Wait for the async request to complete and get the result
                     String response = sendDataFuture.get();
