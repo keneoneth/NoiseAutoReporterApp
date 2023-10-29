@@ -8,6 +8,25 @@
     android:background="@color/white"
     tools:context=".MainActivity">
     <EditText
+        android:id="@+id/DEVICEID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your device ID"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="#333333"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <EditText
+        android:id="@+id/UPDATEFREQ"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter update freq in sec (default=5)"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="#333333"
+        app:layout_constraintTop_toBottomOf="@+id/DEVICEID"/>
+    <EditText
         android:id="@+id/APIKEY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +34,13 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="#333333"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/UPDATEFREQ"/>
+
+    <Space
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/APIKEY"/>
     <TextView
         android:id="@+id/MAINTEXT"
         android:layout_width="match_parent"
@@ -26,7 +51,7 @@
         android:textSize="24sp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/APIKEY"
+        app:layout_constraintTop_toBottomOf="@+id/empty_view"
         android:text="sample" />
 
     <android.widget.LinearLayout

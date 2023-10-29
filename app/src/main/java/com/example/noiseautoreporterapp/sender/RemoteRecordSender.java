@@ -12,8 +12,11 @@ import java.util.concurrent.Future;
 
 public class RemoteRecordSender {
 
+    private EditText mEtDeviceID = null;
     private EditText mEtAPIKey = null;
-    public RemoteRecordSender(EditText remoteAPIKey) {
+
+    public RemoteRecordSender(EditText deviceID, EditText remoteAPIKey) {
+        this.mEtDeviceID = deviceID;
         this.mEtAPIKey = remoteAPIKey;
     }
 
@@ -35,7 +38,7 @@ public class RemoteRecordSender {
                 String authToken = jsonObject.get("token").getAsString();
                 // NOTE: comment the line below to use WebCommandClient
 //                Future<String> sendDataFuture = UbidotsClient.sendDataAsync(authToken, noiseRecord);
-                Future<String> sendDataFuture = WebCommandClient.sendDataAsync(authToken, noiseRecord);
+                Future<String> sendDataFuture = WebCommandClient.sendDataAsync(this.mEtDeviceID.getText().toString(), authToken, noiseRecord);
                 try {
                     // Wait for the async request to complete and get the result
                     String response = sendDataFuture.get();

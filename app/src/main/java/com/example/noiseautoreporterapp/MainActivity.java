@@ -95,10 +95,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // set up edit text
+        EditText etDevID = findViewById(R.id.DEVICEID);
+        EditText etUpdateFreq = findViewById(R.id.UPDATEFREQ);
         EditText etAPIKey = findViewById(R.id.APIKEY);
         // set up tools
         gpsReceiver = new GPSReceiver(this);
-        noiseRecorder = new NoiseRecorder(gpsReceiver,etAPIKey);
+        noiseRecorder = new NoiseRecorder(gpsReceiver,etDevID,etAPIKey);
         displayNoiseRecordList = new ArrayList<String>();
         noiseRecordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displayNoiseRecordList) {
 
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
         noiseThresholdController = new NoiseThresholdController(DEFAULT_NOISE_LEVEL);
-        noiseMeter = new NoiseMeter(this, noiseThresholdController, noiseRecorder);
+        noiseMeter = new NoiseMeter(this, etUpdateFreq, noiseThresholdController, noiseRecorder);
         locationSettingsLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {

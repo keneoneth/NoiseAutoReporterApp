@@ -31,7 +31,7 @@ public class WebCommandClient {
         });
     }
 
-    public static Future<String> sendDataAsync(final String authToken, NoiseRecord noiseRecord) {
+    public static Future<String> sendDataAsync(final String deviceID, final String authToken, NoiseRecord noiseRecord) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         return executor.submit(() -> {
@@ -49,11 +49,11 @@ public class WebCommandClient {
                                 "\"Type\": \"Noise\"," +
                                 "\"Min\": %d," +
                                 "\"Max\": %d," +
-                                "\"DeviceID\": \"defaultAndroidAppID\"" +
+                                "\"DeviceID\": \"%s\"" +
 
                             "}" +
                         "]" +
-                "}}",(int) noiseRecord.getNoiseLevel(), (int) noiseRecord.getNoiseLevel());
+                "}}",(int) noiseRecord.getMinNoiseLevel(), (int) noiseRecord.getNoiseLevel(), deviceID);
 
 
                 // Create a URL object

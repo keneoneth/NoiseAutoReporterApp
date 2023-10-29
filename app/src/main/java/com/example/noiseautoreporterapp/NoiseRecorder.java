@@ -21,10 +21,10 @@ public class NoiseRecorder {
     private ArrayList<String> noiseRecordList = null;
     private GPSReceiver mGPSReceiver = null;
     private RemoteRecordSender mRemoteRecordSender = null;
-    public NoiseRecorder (GPSReceiver gpsReceiver, EditText etAPIKey) {
+    public NoiseRecorder (GPSReceiver gpsReceiver, EditText etDevID, EditText etAPIKey) {
         this.noiseRecordList = new ArrayList<>();
         this.mGPSReceiver = gpsReceiver;
-        this.mRemoteRecordSender = new RemoteRecordSender(etAPIKey);
+        this.mRemoteRecordSender = new RemoteRecordSender(etDevID, etAPIKey);
     }
     private boolean checkLocationValid(String location) {
         if (location.equals(GPS_RECEIVER_NULL_ERROR))
@@ -49,11 +49,11 @@ public class NoiseRecorder {
         return this.noiseRecordList.size();
     }
 
-    public String addRecord(double noiseLevel) {
+    public String addRecord(double minNoiseLevel, double maxNoiseLevel) {
         String curLocation = getLocation();
         if (checkLocationValid(curLocation)) {
             Date currentDate = new Date();
-            NoiseRecord noiseRecord = new NoiseRecord(currentDate, curLocation, noiseLevel);
+            NoiseRecord noiseRecord = new NoiseRecord(currentDate, curLocation, minNoiseLevel, maxNoiseLevel);
             Log.i("noise recorder", "add record " + noiseRecord.toString());
             // send to remote
             boolean sendStatus = mRemoteRecordSender.sendRecord(noiseRecord);

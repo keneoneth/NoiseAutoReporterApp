@@ -8,11 +8,20 @@ public class NoiseRecord {
     private Date mRecordDate; // date of the record happened
     private String mLocation; // location of the record happened
     private double mNoiseLevel; // noise level of record
+    private double mMinNoiseLevel;
     private boolean mRemoteSendStatus;
     public NoiseRecord (Date recordDate, String location, double noiseLevel) {
         this.mRecordDate = recordDate;
         this.mLocation = location;
         this.mNoiseLevel = noiseLevel;
+        this.mMinNoiseLevel = noiseLevel;
+        this.mRemoteSendStatus = false;
+    }
+    public NoiseRecord (Date recordDate, String location, double maxNoiseLevel, double minNoiseLevel) {
+        this.mRecordDate = recordDate;
+        this.mLocation = location;
+        this.mNoiseLevel = maxNoiseLevel;
+        this.mMinNoiseLevel = minNoiseLevel;
         this.mRemoteSendStatus = false;
     }
     private String getTimeStamp(Date date) {
@@ -29,6 +38,9 @@ public class NoiseRecord {
     }
     public double getNoiseLevel() {
         return mNoiseLevel;
+    }
+    public double getMinNoiseLevel() {
+        return mMinNoiseLevel;
     }
     public void setRemoteSendStatus(boolean remoteSendStatus) {
         this.mRemoteSendStatus = remoteSendStatus;

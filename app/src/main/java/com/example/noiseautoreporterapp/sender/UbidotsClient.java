@@ -85,7 +85,7 @@ public class UbidotsClient {
                 // Define the URL, API key, and data
                 String apiUrl = "https://industrial.api.ubidots.com/api/v1.6/devices/noisemeter/";
                 String jsonData = String.format("{ \"dBa\": %f, \"max\": %d, \"min\": %d }",
-                        noiseRecord.getNoiseLevel(), 0, 0);
+                        noiseRecord.getNoiseLevel(), noiseRecord.getNoiseLevel(), noiseRecord.getMinNoiseLevel());
 
                 // Create a URL object
                 URL url = new URL(apiUrl);
