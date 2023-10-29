@@ -50,10 +50,11 @@ public class WebCommandClient {
                                 "\"Min\": %d," +
                                 "\"Max\": %d," +
                                 "\"DeviceID\": \"%s\"" +
+                                "\"Location\": \"%s\"" +
 
                             "}" +
                         "]" +
-                "}}",(int) noiseRecord.getMinNoiseLevel(), (int) noiseRecord.getNoiseLevel(), deviceID);
+                "}}",(int) noiseRecord.getMinNoiseLevel(), (int) noiseRecord.getNoiseLevel(), deviceID, noiseRecord.getLocation());
 
 
                 // Create a URL object
