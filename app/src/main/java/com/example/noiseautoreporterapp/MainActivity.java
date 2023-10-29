@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int DEFAULT_NOISE_FAST_FW_LEVEL = 10;
     private static final int DEFAULT_NOISE_FW_LEVEL = 1;
     private static final int NOISE_SCAN_FREQ = 100;
+    private static final String KEY_DEV_ID = "DEV_ID";
+    private static final String KEY_UPDATE_FREQ = "UPDATE_FREQ";
+    private static final String KEY_API_KEY = "API_KEY";
     private NoiseMeter noiseMeter = null;
     private GPSReceiver gpsReceiver = null;
     private NoiseRecorder noiseRecorder = null;
@@ -89,6 +95,17 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         locationSettingsLauncher.launch(intent);
     }
+    private String getValueFromSave(String key) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String savedValue = sharedPref.getString(key, ""); //the 2 argument return default value
+        return savedValue;
+    }
+    private void saveFromEditText(String key, String value) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +113,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // set up edit text
         EditText etDevID = findViewById(R.id.DEVICEID);
+        etDevID.setText(getValueFromSave(KEY_DEV_ID));
         EditText etUpdateFreq = findViewById(R.id.UPDATEFREQ);
+        etUpdateFreq.setText(getValueFromSave(KEY_UPDATE_FREQ));
         EditText etAPIKey = findViewById(R.id.APIKEY);
+        etAPIKey.setText(getValueFromSave(KEY_API_KEY));
         // set up tools
         gpsReceiver = new GPSReceiver(this);
         noiseRecorder = new NoiseRecorder(gpsReceiver,etDevID,etAPIKey);
@@ -135,7 +155,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
+        Button button = (Button) findViewById(R.id.BUTTONSAVE);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveFromEditText(KEY_DEV_ID, etDevID.getText().toString());
+                saveFromEditText(KEY_UPDATE_FREQ, etUpdateFreq.getText().toString());
+                saveFromEditText(KEY_API_KEY, etAPIKey.getText().toString());
+                showToastMssg("User Input Saved");
+            }
+        });
 
         // set up buttons to control noise threshold levels
         ImageButton ibtnLeftFastForward = (ImageButton) findViewById(R.id.BUTTONLFFW);
